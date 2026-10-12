@@ -26,5 +26,6 @@ Ask Claude Code in plain words, for example:
 
 ### Files
 
-- `.mcp.json`: starts PAL with `uvx`. It pins `mcp<2` because PAL 9.8.2 crashes on startup with `mcp` 2.x.
+- `.mcp.json`: starts PAL through `pal/start.sh`.
+- `pal/start.sh`: runs PAL with `uvx`. It pins `mcp<2` because PAL 9.8.2 crashes on startup with `mcp` 2.x. When an HTTPS proxy is set, it sends PyPI traffic through the proxy, because Claude Code cloud sessions list PyPI in `NO_PROXY` but can't reach it directly.
 - `pal/openrouter_models.json`: the models PAL may use. It replaces PAL's built-in list, which stops at Grok 4 and GPT-5.2. To add or update a model, copy its ID from [openrouter.ai/models](https://openrouter.ai/models) into this file.
