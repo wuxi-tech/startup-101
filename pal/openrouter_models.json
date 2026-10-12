@@ -1,0 +1,40 @@
+{
+  "_README": {
+    "description": "Current OpenRouter models for PAL, replacing PAL's built-in catalogue (which stops at Grok 4 / GPT-5.2).",
+    "format": "https://github.com/BeehiveInnovations/pal-mcp-server/blob/main/docs/custom_models.md",
+    "model_ids": "Check IDs at https://openrouter.ai/models when a model is retired or a new one ships."
+  },
+  "models": [
+    {
+      "model_name": "x-ai/grok-4.7",
+      "aliases": ["grok", "grok-4.7", "grok4.7"],
+      "context_window": 500000,
+      "max_output_tokens": 450000,
+      "supports_extended_thinking": true,
+      "supports_json_mode": true,
+      "supports_function_calling": true,
+      "supports_images": true,
+      "max_image_size_mb": 20.0,
+      "supports_temperature": true,
+      "temperature_constraint": "range",
+      "description": "xAI's Grok 4.7 via OpenRouter (500K context)",
+      "intelligence_score": 18
+    },
+    {
+      "model_name": "openai/gpt-6.1-sol",
+      "aliases": ["gpt", "gpt6.1", "gpt-6.1", "gpt-6.1-sol"],
+      "context_window": 1050000,
+      "max_output_tokens": 128000,
+      "supports_extended_thinking": true,
+      "supports_json_mode": true,
+      "supports_function_calling": true,
+      "supports_images": true,
+      "max_image_size_mb": 20.0,
+      "supports_temperature": false,
+      "temperature_constraint": "fixed",
+      "default_reasoning_effort": "medium",
+      "description": "OpenAI GPT-6.1 Sol via OpenRouter (1M context)",
+      "intelligence_score": 18
+    }
+  ]
+}
