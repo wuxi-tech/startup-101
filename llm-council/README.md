@@ -2,6 +2,13 @@
 
 ![llmcouncil](header.jpg)
 
+> Our copy of [karpathy/llm-council](https://github.com/karpathy/llm-council), adapted for startup-101. Changes from the original:
+>
+> - The council is GPT-6.1, Claude Sonnet 5.5 and Grok 4.7, with Claude Opus 5.5 as Chairman. Models can be swapped in `.env` without touching code.
+> - Follow-up questions: the input box stays open after an answer, and each follow-up sends the earlier conversation (your questions and the Chairman's answers) to every stage.
+>
+> Karpathy's original description follows.
+
 The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT 5.1, Google Gemini 3.0 Pro, Anthropic Claude Sonnet 4.5, xAI Grok 4, eg.c), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it uses OpenRouter to send your query to multiple LLMs, it then asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
 
 In a bit more detail, here is what happens when you submit a query:
@@ -34,28 +41,28 @@ cd ..
 
 ### 2. Configure API Key
 
-Create a `.env` file in the project root:
+Copy `.env.example` to `.env` in the project root and fill in your key:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-...
 ```
 
+`.env` is git-ignored, so the key never gets committed.
+
 Get your API key at [openrouter.ai](https://openrouter.ai/). Make sure to purchase the credits you need, or sign up for automatic top up.
 
 ### 3. Configure Models (Optional)
 
-Edit `backend/config.py` to customize the council:
+Set any of these in `.env` to change the council (the defaults live in `backend/config.py`). Model names are [OpenRouter model IDs](https://openrouter.ai/models).
 
-```python
-COUNCIL_MODELS = [
-    "openai/gpt-5.1",
-    "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
-    "x-ai/grok-4",
-]
-
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
+```bash
+COUNCIL_MODELS=openai/gpt-6.1-sol,anthropic/claude-sonnet-5.5,x-ai/grok-4.7
+CHAIRMAN_MODEL=anthropic/claude-opus-5.5
+TITLE_MODEL=anthropic/claude-haiku-5.5
+MAX_HISTORY_MESSAGES=10   # earlier messages sent with each follow-up
 ```
+
+If OpenRouter retires a model, that model's answers will be missing and the backend logs an error for it; update the ID here.
 
 ## Running the Application
 

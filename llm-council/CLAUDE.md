@@ -13,6 +13,8 @@ LLM Council is a 3-stage deliberation system where multiple LLMs collaboratively
 **`config.py`**
 - Contains `COUNCIL_MODELS` (list of OpenRouter model identifiers)
 - Contains `CHAIRMAN_MODEL` (model that synthesizes final answer)
+- Contains `TITLE_MODEL` and `MAX_HISTORY_MESSAGES`
+- All model settings can be overridden from `.env` (`COUNCIL_MODELS` is comma-separated)
 - Uses environment variable `OPENROUTER_API_KEY` from `.env`
 - Backend runs on **port 8001** (NOT 8000 - user had another app on 8000)
 
@@ -23,6 +25,8 @@ LLM Council is a 3-stage deliberation system where multiple LLMs collaboratively
 - Graceful degradation: returns None on failure, continues with successful responses
 
 **`council.py`** - The Core Logic
+- `build_history()`: Turns stored messages into chat history for follow-ups (user content + each turn's stage3 answer, capped at `MAX_HISTORY_MESSAGES`)
+- Every stage takes an optional `history`: Stage 1 sends it as prior chat messages; Stages 2 and 3 prepend it as a "Conversation so far" transcript
 - `stage1_collect_responses()`: Parallel queries to all council models
 - `stage2_collect_rankings()`:
   - Anonymizes responses as "Response A, B, C, etc."
@@ -123,7 +127,7 @@ All backend modules use relative imports (e.g., `from .config import ...`) not a
 All ReactMarkdown components must be wrapped in `<div className="markdown-content">` for proper spacing. This class is defined globally in `index.css`.
 
 ### Model Configuration
-Models are hardcoded in `backend/config.py`. Chairman can be same or different from council members. The current default is Gemini as chairman per user preference.
+Defaults are in `backend/config.py` and can be overridden from `.env`. Chairman can be same or different from council members. The current default is Claude Opus as chairman.
 
 ## Common Gotchas
 
